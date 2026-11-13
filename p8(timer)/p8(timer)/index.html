@@ -1,0 +1,124 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Stylish Stopwatch</title>
+    <style>
+      body {
+        font-family: "Poppins", sans-serif;
+        background-color: #2C3639;
+        color: #DCD7C9;
+        display: flex;
+        flex-direction: column;
+        justify-content: center;
+        align-items: center;
+        height: 100vh;
+        margin: 0;
+        transition: background 0.5s ease;
+      }
+
+      h1 {
+        font-size: 4rem;
+        margin-bottom: 2rem;
+        color: #A27B5C;
+        letter-spacing: 2px;
+        text-shadow: 0 0 10px rgba(162, 123, 92, 0.4);
+        animation: fadeIn 1.5s ease-in-out;
+      }
+
+      button {
+        background-color: #3F4E4F;
+        color: #DCD7C9;
+        border: none;
+        padding: 0.8rem 2rem;
+        margin: 0.5rem;
+        font-size: 1.1rem;
+        border-radius: 8px;
+        cursor: pointer;
+        transition: all 0.3s ease;
+        box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+      }
+
+      button:hover {
+        background-color: #A27B5C;
+        color: #2C3639;
+        transform: translateY(-3px);
+        box-shadow: 0 6px 12px rgba(162, 123, 92, 0.3);
+      }
+
+      button:active {
+        transform: scale(0.95);
+      }
+
+      @keyframes fadeIn {
+        from {
+          opacity: 0;
+          transform: translateY(-20px);
+        }
+        to {
+          opacity: 1;
+          transform: translateY(0);
+        }
+      }
+
+      @media (max-width: 600px) {
+        h1 {
+          font-size: 2.5rem;
+        }
+        button {
+          font-size: 1rem;
+          padding: 0.6rem 1.5rem;
+        }
+      }
+    </style>
+  </head>
+  <body>
+    <h1 id="time">0:0:0</h1>
+    
+    <button id="start">Start</button>
+    <button id="stop">Stop</button>
+    <button id="reset">Reset</button>
+
+    <script>
+      const time = document.getElementById("time");
+      const start = document.getElementById("start");
+      const stop = document.getElementById("stop");
+      const reset = document.getElementById("reset");
+
+      let h = 0, m = 0, s = 0;
+      let t = null;
+
+      start.addEventListener("click", () => {
+        if (t !== null) return;
+        t = setInterval(() => {
+          time.textContent = `${h}:${m}:${s}`;
+          s++;
+          if (s === 60) {
+            m++;
+            s = 0;
+          }
+          if (m === 60) {
+            h++;
+            m = 0;
+            s = 0;
+          }
+        }, 1000);
+      });
+
+      stop.addEventListener("click", () => {
+        clearInterval(t);
+        t = null;
+      });
+
+      reset.addEventListener("click", () => {
+        h = 0;
+        m = 0;
+        s = 0;
+        clearInterval(t);
+        t = null;
+        time.textContent = `${h}:${m}:${s}`;
+      });
+    </script>
+  </body>
+</html>
